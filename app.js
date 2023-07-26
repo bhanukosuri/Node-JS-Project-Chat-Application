@@ -6,6 +6,7 @@ const app = express()
 
 const loginRouter = require('./routes/login')
 const chatRouter = require('./routes/postChat')
+const contactUsRouter = require('./routes/contactUs')
 
 const bodyParser = require('body-parser')
 
@@ -14,6 +15,7 @@ app.use(express.static(path.join(__dirname, "public")))
 
 app.use(loginRouter)
 app.use(chatRouter)
+app.use(contactUsRouter)
 
 app.use((req, res, next) => {
     res.status(404).sendFile(path.join(__dirname, 'views', '404.html'))

@@ -12,16 +12,18 @@
             <ul class="main-header__item-list">
                 <li class="main-header__item"><a href="/">Chat</a></li>
                 <li class="main-header__item"><a class="active" href="/login">Login</a></li>
+                <li class="main-header__item"><a href="/contactus">Contact Us</a></li>
             </ul>
         </nav>
     </header>
     <main>
         <h1>Please login to the Chat Application</h1>
-        <form class="login-from" action="/" method="GET" onsubmit="localStorage.setItem('username', document.getElementById('username').value)">
+        <form class="login-form" action="/" method="GET" onsubmit="localStorage.setItem('username', document.getElementById('username').value)">
             <div>
                 <label for="username">User Name</label>
-                <input id="username" type="text" name="username" is="username">
+                <input id="username" type="text" name="username">
             </div>
+            <br>
             <button type="submit">Log In</button>
         </form>
     </main>
