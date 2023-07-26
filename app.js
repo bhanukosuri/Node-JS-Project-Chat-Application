@@ -1,61 +1,22 @@
 const express = require('express')
 const fs = require('fs')
+const path = require('path')
 
 const app = express()
+
+const loginRouter = require('./routes/login')
+const chatRouter = require('./routes/postChat')
+
 const bodyParser = require('body-parser')
 
 app.use(bodyParser.urlencoded({extended: false}))
+app.use(express.static(path.join(__dirname, "public")))
 
-app.get('/login', (req, res, next) => {
-    const html = `
-    <html>
-        <head>
-            <title>Chat Application - Login Page</title>
-        </head>
-        <body>
-            <h1>Please login to the Chat Application</h1>
-            <form action="/" method="GET" onsubmit="localStorage.setItem('username', document.getElementById('username').value)">
-                <input id="username" type="text" name="username">
-                <br><br>
-                <button type="submit">Log In</button>
-        </form>
-        </body>
-    </html>
-    `
-    res.send(html)
-})
+app.use(loginRouter)
+app.use(chatRouter)
 
-app.get ('/', (req, res, next) => {
-    fs.readFile('chat.txt', (err, data) => {
-        if  (err) {
-            console.log(err)
-            data = 'No Chat Exists'
-        }
-        const html = `
-        <html>
-            <head>
-                <title>Welcome to the Chat Application</title>
-            </head>
-            <body>
-                ${data}
-                <form action="/" onsubmit="document.getElementById('username').value = localStorage.getItem('username')" method="POST">
-                    <input id="message" type="text" name="message" placeHolder="message">
-                    <input type="hidden" name="username" id="username">
-                    <br><br>
-                    <button type="submit">Send</button>
-            </form>
-            </body>
-        </html>
-        `
-        res.send(html)
-    })
-})
-
-app.post('/', (req, res, next) => {
-    fs.appendFile("chat.txt", `${req.body.username} : ${req.body.message}\n`, err => {
-        err ? console.log(err) : res.redirect("/")
-    })
-
+app.use((req, res, next) => {
+    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'))
 })
 
 app.listen(3000)
